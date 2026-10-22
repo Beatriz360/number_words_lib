@@ -22,3 +22,10 @@ The scope is deliberately small: integers up to 999999999 in short scale (millio
 Values outside the range raise `ValueError`. Booleans are rejected with `TypeError` even though `bool` is a subclass of `int`, because passing `True` to a number-to-words function is almost always a bug.
 
 Hyphens join the tens and ones ("twenty-one"), while spaces separate everything else ("one hundred one"). The word "and" is omitted, matching modern American English style.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
